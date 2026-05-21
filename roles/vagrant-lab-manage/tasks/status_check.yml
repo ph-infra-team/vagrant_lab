@@ -1,0 +1,25 @@
+---
+- name: Get Vagrant status per host
+  community.vagrant.vagrant:
+    path: "{{ item.lab_dir }}"
+    state: list
+  loop: "{{ infra_hosts }}"
+  delegate_to: "{{ item.hostname }}"
+  register: vm_status
+
+- name: Extract poweroff VMs
+  set_fact:
+    poweroff_vms_by_host: "{{ poweroff_vms_by_host | default({}) | combine({item.item.hostname: []}) }}"
+  loop: "{{ vm_status.results }}"
+
+- name: List poweroff VMs per host
+  set_fact:
+    poweroff_vms_by_host: >-
+      {{
+        poweroff_vms_by_host | combine({
+          item.item.hostname: 
+          (item.vagrant_machines | dict2items | 
+           json_query('[?value.state == `poweroff`].key') | list)
+        })
+      }}
+  loop: "{{ vm_status.results }}"

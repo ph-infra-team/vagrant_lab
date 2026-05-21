@@ -1,0 +1,52 @@
+---
+- name: Test Vagrant Host Connectivity + Host List
+  hosts: bare_metal
+  gather_facts: true
+  tasks:
+    - name: Print all targeted hosts
+      ansible.builtin.debug:
+        msg: "Targeted hosts: {{ groups['bare_metal'] | join(', ') }}"
+      run_once: true
+
+    - name: Connection test
+      ansible.builtin.ping:
+
+    - name: Who am I
+      ansible.builtin.command: whoami
+      register: who_result
+
+    - name: Lab directory check
+      ansible.builtin.stat:
+        path: /proj/vagrant/vagrant-lab
+      register: lab_stat
+
+    - name: Prune + Vagrant status
+      ansible.builtin.command: vagrant global-status --prune
+      args:
+        chdir: /proj/vagrant/vagrant-lab
+      register: vg_status
+      changed_when: false
+
+    - name: Parse VM list
+      ansible.builtin.set_fact:
+        vm_list: "{{ vg_status.stdout_lines | select('match', '^[a-f0-9]{7}') | map('regex_replace', '^[a-f0-9]{7}\\s+([a-z0-9-]+).*', '\\1') | list }}"
+
+    - name: Detailed Report
+      ansible.builtin.debug:
+        msg: |
+          Host: {{ inventory_hostname }} ({{ ansible_host }})
+          User: {{ who_result.stdout }}
+          Lab: {{ lab_stat.stat.exists | ternary('✅ EXISTS', '❌ MISSING') }}
+          VMs: {{ vm_list | length }}
+          VM List: {{ vm_list | join(', ') | truncate(80) }}
+
+- name: Final Summary
+  hosts: localhost
+  tasks:
+    - name: All hosts summary
+      ansible.builtin.debug:
+        msg: |
+          SUCCESS! Connected to:
+          {{ groups['bare_metal'] | join('\n  - ') }}
+          Total VMs: {{ hostvars | dict2items | json_query('[?vg_status].vm_list[*][]') | length }}
+  run_once: true

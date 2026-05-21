@@ -1,0 +1,8 @@
+---
+lab_dir: /proj/vagrant/vagrant-lab
+infra_hosts:
+  - hostname: infra01
+    lab_dir: /proj/vagrant/vagrant-lab
+  - hostname: infra02
+    lab_dir: /proj/vagrant/vagrant-lab
+target_vms: []  # [] = all poweroff VMs

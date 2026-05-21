@@ -1,0 +1,16 @@
+---
+- name: Vagrant Lab Smart Provision
+  hosts: localhost
+  gather_facts: true
+
+  collections:
+    - community.vagrant
+
+  pre_tasks:
+    - name: Install required ansible collections
+      ansible.builtin.command:
+        cmd: ansible-galaxy collection install -r collections/requirements.yml
+      register: collections_result
+
+  roles:
+    - vagrant-lab-manage

@@ -1,0 +1,7 @@
+Vagrant Lab Report {{ ansible_date_time.date }}
+====================
+{% for h in infra_hosts %}
+{{ h.hostname | upper }} {{ h.lab_dir }}
+  Poweroff: {{ poweroff_vms_by_host[h.hostname] | length }}
+  List: {{ poweroff_vms_by_host[h.hostname] | join(', ') }}
+{% endfor %}

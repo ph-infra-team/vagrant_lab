@@ -1,0 +1,15 @@
+---
+- name: Reload poweroff VMs only
+  community.vagrant.vagrant:
+    path: "{{ host_entry.lab_dir }}"
+    name: "{{ vm_name }}"
+    state: reloaded
+  vars:
+    host_entry: "{{ item_outer }}"
+  loop: "{{ poweroff_vms_by_host[host_entry.hostname] | default([]) }}"
+  loop_control:
+    loop_var: vm_name
+  with_items: "{{ infra_hosts }}"
+  delegate_to: "{{ host_entry.hostname }}"
+  register: reload_results
+  when: poweroff_vms_by_host[host_entry.hostname] | length > 0

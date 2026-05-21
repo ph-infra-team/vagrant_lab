@@ -1,0 +1,14 @@
+---
+- name: Generate audit report
+  template:
+    src: lab_report.j2
+    dest: "/tmp/vagrant_lab_report_{{ ansible_date_time.epoch }}.txt"
+  delegate_to: localhost
+
+- name: Summary
+  debug:
+    msg: |
+      {% for h in infra_hosts %}
+      {{ h.hostname }}: {{ poweroff_vms_by_host[h.hostname] | length }} reloaded
+      {% endfor %}
+      Report: /tmp/vagrant_lab_report_{{ ansible_date_time.epoch }}.txt

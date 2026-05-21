@@ -1,0 +1,32 @@
+---
+# vms_by_group:
+#   infra: 
+#     - gitlab
+#     - jenkins
+#     - argocd
+#     - artifactory
+#     - vault
+#     - prometheus
+#     - grafana
+#     - dns
+#     - backup
+#     # - awx
+#   elk:
+#     - logstash
+#     - kibana
+#     - esmaster
+#     - esdata1
+#     - esdata2
+#   app:
+#     - devmaster
+#     - devworker1
+#     - devworker2
+#     - prodmaster
+#     - prodworker1
+#     - prodworker2
+#   db:
+#     - postgres1
+#     - postgres2
+#     - mongodb1
+#     - mongodb3
+#     - mongo2

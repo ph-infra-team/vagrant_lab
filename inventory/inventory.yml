@@ -1,0 +1,54 @@
+all:
+  children:
+    rockylinux9:
+      children:
+
+        # -------------------------------
+        # INFRA GROUP - core DevOps tools
+        # -------------------------------
+        infra:
+          hosts:
+            awx.midhtech.local:
+            gitlab.midhtech.local:
+            jenkins.midhtech.local:
+            argocd.midhtech.local:
+            artifactory.midhtech.local:
+            vault.midhtech.local:
+            prometheus.midhtech.local:
+            grafana.midhtech.local:
+            dns.midhtech.local:
+            backup.midhtech.local:
+
+        # -------------------------------
+        # ELK STACK GROUP
+        # -------------------------------
+        elk:
+          hosts:
+            logstash.midhtech.local:
+            kibana.midhtech.local:
+            esmaster.midhtech.local:
+            esdata1.midhtech.local:
+            esdata2.midhtech.local:
+
+        # -------------------------------
+        # APPLICATION (MAAS)
+        # -------------------------------
+        app:
+          hosts:
+            devmaster.midhtech.local:
+            devworker1.midhtech.local:
+            devworker2.midhtech.local:
+            prodmaster.midhtech.local:
+            prodworker1.midhtech.local:
+            prodworker2.midhtech.local:
+
+        # -------------------------------
+        # DATABASES
+        # -------------------------------
+        db:
+          hosts:
+            postgres1.midhtech.local:
+            postgres2.midhtech.local:
+            mongodb1.midhtech.local:
+            mongodb3.midhtech.local:
+            mongo2.midhtech.local:

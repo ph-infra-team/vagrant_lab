@@ -1,0 +1,265 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+
+current_dir = File.dirname(__FILE__)
+Vagrant.configure("2") do |global_config|
+
+cookbook_testers = {
+:awx => {
+    :hostname => "awx.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.151",
+    :memory => 8192,
+    :disksize => "80GB",
+    :cpus => 4,
+    :hostport => 1751,
+},
+:gitlab => {
+    :hostname => "gitlab.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.152",
+    :memory => 10240,
+    :disksize => "80GB",
+    :cpus => 4,
+    :hostport => 1752,
+},
+:artifactory => {
+    :hostname => "artifactory.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.153",
+    :memory => 8192,
+    :disksize => "80GB",
+    :cpus => 4,
+    :hostport => 1753,
+},
+:jenkins => {
+    :hostname => "jenkins.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.154",
+    :memory => 4096,
+    :disksize => "80GB",
+    :cpus => 2,
+    :hostport => 1754,
+},
+:dns => {
+    :hostname => "dns.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.155",
+    :memory => 3072,
+    :disksize => "80GB",
+    :cpus => 2,
+    :hostport => 1755,
+},
+:prometheus => {
+    :hostname => "prometheus.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.156",
+    :memory => 4096,
+    :disksize => "80GB",
+    :cpus => 2,
+    :hostport => 1756,
+},
+:grafana => {
+    :hostname => "grafana.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.157",
+    :memory => 4096,
+    :disksize => "80GB",
+    :cpus => 2,
+    :hostport => 1757,
+},
+:esmaster => {
+    :hostname => "esmaster.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.158",
+    :memory => 6144,
+    :disksize => "80GB",
+    :cpus => 4,
+    :hostport => 1758,
+},
+:esdata1 => {
+    :hostname => "esdata1.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.159",
+    :memory => 6144,
+    :disksize => "200GB",
+    :cpus => 4,
+    :hostport => 1759,
+},
+:esdata2 => {
+    :hostname => "esdata2.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.160",
+    :memory => 6144,
+    :disksize => "200GB",
+    :cpus => 4,
+    :hostport => 1760,
+},
+:kibana => {
+    :hostname => "kibana.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.161",
+    :memory => 4096,
+    :disksize => "80GB",
+    :cpus => 2,
+    :hostport => 1761,
+},
+:logstash => {
+    :hostname => "logstash.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.162",
+    :memory => 4096,
+    :disksize => "80GB",
+    :cpus => 4,
+    :hostport => 1762,
+},
+:mysqldb => {
+    :hostname => "mysqldb.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.163",
+    :memory => 6192,
+    :disksize => "120GB",
+    :cpus => 4,
+    :hostport => 1763,
+},
+:mongodb => {
+    :hostname => "mongodb.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.164",
+    :memory => 6192,
+    :disksize => "120GB",
+    :cpus => 4,
+    :hostport => 1764,
+},
+:controller => {
+    :hostname => "controller.example.com",
+    :box_name => "generic/rhel9",
+    :ipaddress => "192.168.1.165",
+    :memory => 5120,
+    :disksize => "160GB",
+    :cpus => 2,
+    :hostport => 1765,
+},
+:hub => {
+    :hostname => "hub.example.com",
+    :box_name => "generic/rhel9",
+    :ipaddress => "192.168.1.166",
+    :memory => 5120,
+    :disksize => "160GB",
+    :cpus => 2,
+    :hostport => 1766,
+},
+:eda => {
+    :hostname => "eda.example.com",
+    :box_name => "generic/rhel9",
+    :ipaddress => "192.168.1.167",
+    :memory => 5120,
+    :disksize => "200GB",
+    :cpus => 2,
+    :hostport => 1767,
+},
+:gitlabrunner => {
+    :hostname => "gitlabrunner.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.168",
+    :memory => 5120,
+    :disksize => "120GB",
+    :cpus => 4,
+    :hostport => 1768,
+},
+:postgresdb => {
+    :hostname => "postgresdb.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.169",
+    :memory => 6192,
+    :disksize => "120GB",
+    :cpus => 4,
+    :hostport => 1769,
+},
+:jagent1 => {
+    :hostname => "jagent1.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.170",
+    :memory => 6192,
+    :disksize => "120GB",
+    :cpus => 4,
+    :hostport => 1770,
+},
+:vault => {
+    :hostname => "vault.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.171",
+    :memory => 3072,
+    :disksize => "120GB",
+    :cpus => 2,
+    :hostport => 1771,
+},
+:ocmaster => {
+    :hostname => "ocmaster.example.com",
+    :box_name => "generic/rhel9",
+    :ipaddress => "192.168.1.172",
+    :memory => 8192,
+    :disksize => "120GB",
+    :cpus => 4,
+    :hostport => 1772,
+},
+:ocworker1 => {
+    :hostname => "ocworker1.example.com",
+    :box_name => "generic/rhel9",
+    :ipaddress => "192.168.1.173",
+    :memory => 15360,
+    :disksize => "200GB",
+    :cpus => 6,
+    :hostport => 1773,
+},
+:ocworker2 => {
+    :hostname => "ocworker2.example.com",
+    :box_name => "generic/rhel9",
+    :ipaddress => "192.168.1.174",
+    :memory => 15360,
+    :disksize => "200GB",
+    :cpus => 6,
+    :hostport => 1774,
+},
+:secopstools => {
+    :hostname => "secopstools.example.com",
+    :box_name => "generic/rocky9",
+    :ipaddress => "192.168.1.175",
+    :memory => 6192,
+    :disksize => "100GB",
+    :cpus => 2,
+    :hostport => 1775,
+},
+}
+
+  cookbook_testers.each_pair do |name, options|
+    global_config.vm.define name do |config|
+      config.vm.box = options[:box_name]
+      config.vm.host_name = options[:hostname]
+      config.disksize.size = options[:disksize]
+      config.vm.network "public_network", bridge: "eno1", ip: options[:ipaddress]
+      config.vm.network "forwarded_port", guest: 22, host: options[:hostport]
+      config.ssh.forward_agent = true
+      public_key = File.read("#{Dir.home}/.ssh/id_rsa.pub")
+      config.vm.provision "pub_key", type:"shell", :inline =>"
+        echo 'Copying ansible-vm public SSH Keys to the VM'
+        mkdir -p /home/vagrant/.ssh
+        chmod 700 /home/vagrant/.ssh
+        echo '#{public_key}' >> /home/vagrant/.ssh/authorized_keys
+	echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDvUczfSoqJAqOgzQz30YWKWaIFhliPG/h1404DVrru/RhCptffbAmNrNpm1IphifOqrtN1H7zpzNSIlPtyFCgwfh4D+Oy9nnY3JryYfixV1L2ogk2oEvZE3c+zDWzCrbb7TqVGKhWY6c7YIJxa6MJRLmCQE0EXqBUlv5jZO5GYio6Yo7GF6ChEEY7O0Vlr0Ay4BP+UIQoyL50NDd37LOEX5wpeAVs9AGIRIY2R1GFsH3ALDYdtUdvoW12UI4PPgqd6TF80pBcm1eoAX82QMzLIcsKi0Bj98fW0yIgc0K80RoTLOtnNyi0+CKO65BTPIM9OQfuLlnaDd1cUxnFaAI/v9TqO/5my5PZ/YoC0mqsvTE/Dl0WnFqblvzimneRfTkjSGs1k6C4NqBfvl2Zo/wATArdb4mmLf5Df9X7koOfCyXZzVp2arxOUA2iz/30j1sb4pbljRI6gUBxUFMeTzjJ5JNvEfMnRILooOA4mFb+yMM28po5aLQeRXutMbFwLO7M= pavani@vamsimac.local' >> /home/vagrant/.ssh/authorized_keys
+        chmod -R 600 /home/vagrant/.ssh/authorized_keys
+        echo 'Host 192.168.1.*' >> /home/vagrant/.ssh/config
+        echo 'StrictHostKeyChecking no' >> /home/vagrant/.ssh/config
+        echo 'UserKnownHostsFile /dev/null' >> /home/vagrant/.ssh/config
+        chmod -R 600 /home/vagrant/.ssh/config
+        ", privileged: false
+
+      config.vm.provider :virtualbox do |vb|
+         vb.customize ['modifyvm', :id, '--memory', options[:memory], '--cpus', options[:cpus]]
+         vb.name = options[:hostname]
+      end
+    end
+  end
+end
+                                                               
